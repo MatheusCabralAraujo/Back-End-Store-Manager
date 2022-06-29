@@ -17,5 +17,5 @@ app.get('/products', Products.getAll);
 
 app.get('/products/:id', Products.getById);
 
-
+app.post('/products',Products.createProduct);
 module.exports = app;

@@ -15,7 +15,21 @@ if (productData.length === 0) return null;
   return productData[0];
 };
 
+const createProduct = async (name) => {
+  const query = 'INSERT INTO products (name) VALUES (?)';
+
+  const [registeredId] = await connection.execute(query, [name]);
+
+  const newProduct = {
+    id: registeredId.insertId,
+    name,
+  };
+
+  return newProduct;
+};
+
 module.exports = {
   getAll,
   getById,
+  createProduct
 };
