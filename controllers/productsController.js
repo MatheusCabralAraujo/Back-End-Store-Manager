@@ -29,8 +29,22 @@ const createProduct = async (req, res) => {
 }
 };
 
+const deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await productsService.deleteProduct(id);
+
+    return res.status(204).send();
+  } catch (error) {
+    return res.status(404).json({ message: error.message });
+  }
+};
+
+
 module.exports = {
   getAll,
   getById,
-  createProduct
+  createProduct,
+  deleteProduct
   };

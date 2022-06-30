@@ -20,6 +20,8 @@ app.get('/products/:id', Products.getById);
 
 app.post('/products',Products.createProduct);
 
+app.delete('/products/:id', Products.deleteProduct);
+
 app.get('/sales', Sales.getAll);
 
 app.get('/sales/:id', Sales.getById);
