@@ -22,7 +22,27 @@ const getById = async (id) => {
   return sale;
 };
 
+const createSale = async (sales) => {
+  const dateQuery = 'INSERT INTO sales (date) VALUES (NOW());';
+
+  const [dateAdded] = await connection.execute(dateQuery);
+
+  const insertQuery = 'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)';
+
+  sales.forEach(async (sale) => {
+    await connection.execute(insertQuery, [dateAdded.insertId, sale.productId, sale.quantity]);
+  });
+
+  const createdSales = {
+    id: dateAdded.insertId,
+    itemsSold: sales,
+  };
+  
+  return createdSales;
+};
+
 module.exports = {
   getAll,
   getById,
+  createSale
 };

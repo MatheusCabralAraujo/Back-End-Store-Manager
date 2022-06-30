@@ -6,6 +6,6 @@ const verifyName = (name) => {
     }
   };
 
-  module.exports = {
-    verifyName,
-  };
+module.exports = {
+  verifyName,
+};

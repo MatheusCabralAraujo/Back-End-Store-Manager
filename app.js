@@ -24,4 +24,6 @@ app.get('/sales', Sales.getAll);
 
 app.get('/sales/:id', Sales.getById);
 
+app.post('/sales', Sales.createSale);
+
 module.exports = app;
