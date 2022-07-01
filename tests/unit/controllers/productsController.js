@@ -74,3 +74,39 @@ describe('Buscando apenas 1 produto', () => {
     })
   });
 });
+
+describe('Criando 1 produto novo', () => {
+  describe('Quando o produto é criado', () => {
+    const req = {};
+    const res = {};
+    const product = { id: 1, name: 'Martelo de Thor', quantity: 10 };
+
+    before(() => {
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      req.body = product;
+
+      sinon.stub(productsService, 'createProduct').resolves(product);
+    })
+
+    after(() => {
+      productsService.createProduct.restore();
+    })
+
+    it('O status code é 201', async () => {
+      await productsController.createProduct(req, res);
+      expect(res.status.calledWith(201)).to.be.equal(true);
+    })
+
+    it('O json retornado deve estar dentro de um objeto', async () => {
+      await productsController.createProduct(req, res);
+      expect(res.json.calledWith(sinon.match.object)).to.be.equal(true);
+    })
+
+    it('O json retorna os produtos corretamente', async () => {
+      await productsController.createProduct(req, res);
+      expect(res.json.calledWith(product)).to.be.equal(true);
+    })
+  });
+}); 
