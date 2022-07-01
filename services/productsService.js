@@ -18,7 +18,6 @@ const getById = async (id) => {
 };
 
 const createProduct = async (name) => {
-
   verifyName(name);
 
   const newProduct = await productsModel.createProduct(name);
@@ -27,7 +26,6 @@ const createProduct = async (name) => {
 };
 
 const deleteProduct = async (id) => {
- 
   await getById(id);
 
   await productsModel.deleteProduct(id);
@@ -39,5 +37,5 @@ module.exports = {
   getAll,
   getById,
   createProduct,
-  deleteProduct
+  deleteProduct,
 };

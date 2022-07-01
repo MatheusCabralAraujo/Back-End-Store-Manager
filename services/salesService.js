@@ -34,5 +34,5 @@ const getAll = async () => {
 module.exports = {
   getAll,
   getById,
-  createSale
+  createSale,
 };
