@@ -27,9 +27,8 @@ const createSale = async (req, res) => {
   return res.status(201).json(sale);
 };
 
-
 module.exports = {
   getAll,
   getById,
-  createSale
+  createSale,
 };
