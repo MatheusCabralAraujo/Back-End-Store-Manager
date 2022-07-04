@@ -25,7 +25,12 @@ const getAll = async () => {
   };
 
   const createSale = async (sales) => {
-    validateSale(sales);
+    const verifySale = validateSale(sales);
+    if (verifySale) {
+    const e = new Error(verifySale.message);
+    e.code = verifySale.status;
+    throw e;
+  }
     const newSales = await salesModel.createSale(sales);
  
    return newSales;
