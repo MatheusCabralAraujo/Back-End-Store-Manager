@@ -22,7 +22,9 @@ const createProduct = async (name) => {
   const teste = verifyName(name);
   console.log(teste);
   if (teste) {
-    return teste;
+    const e = new Error(teste.message);
+    e.code = teste.status;
+    throw e;
   }
 
   const newProduct = await productsModel.createProduct(name);

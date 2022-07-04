@@ -25,7 +25,7 @@ const createProduct = async (req, res) => {
     const product = await productsService.createProduct(name);
     return res.status(201).json(product);
 } catch (error) {
-  return res.status(404).json({ message: error.message });
+  return res.status(error.code).json({ message: error.message });
 }
 };
 
