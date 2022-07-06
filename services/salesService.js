@@ -1,5 +1,5 @@
 const salesModel = require('../models/salesModel');
-const { validateSale } = require('../middlewares/validationsSales');
+const { validateSale, validateProductId } = require('../middlewares/validationsSales');
 
 const getAll = async () => {
     const sales = await salesModel.getAll();
@@ -25,12 +25,22 @@ const getAll = async () => {
   };
 
   const createSale = async (sales) => {
-    const verifySale = validateSale(sales);
-    if (verifySale) {
-    const e = new Error(verifySale.message);
-    e.code = verifySale.status;
+    const verifySale = validateSale(sales); 
+    const teste = verifySale.some((e) => e.message);
+    if (teste) {
+      const find = verifySale.find((e) => e !== false);
+    const e = new Error(find.message);
+    e.code = find.status;
     throw e;
-  }
+    }
+    const verifyProductId = await validateProductId(sales);
+    console.log(verifyProductId);
+    const find = verifyProductId.find((element) => element !== false);
+   if (find) {
+     const error = new Error(find.message);
+     error.code = find.status;
+      throw error;
+    }
     const newSales = await salesModel.createSale(sales);
  
    return newSales;
