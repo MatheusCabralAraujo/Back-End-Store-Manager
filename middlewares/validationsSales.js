@@ -15,7 +15,7 @@ const validateSale = (sales) => {
 const validateProductId = async (sales) => {
   const verification = await Promise.all(sales.map(async (element) => {
     const result = await getById(element.productId);
-    console.log(result);
+   // console.log(result);
     if (!result) {
       return { status: 404, message: 'Product not found' };
     }

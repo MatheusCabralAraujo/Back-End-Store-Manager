@@ -38,7 +38,7 @@ const updateProduct = async (req, res) => {
 
   return res.status(200).json(productUpdate);
 } catch (error) {
-  return res.status(404).json({ message: error.message });
+  return res.status(error.code).json({ message: error.message });
 }
 };
 

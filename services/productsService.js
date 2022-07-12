@@ -1,5 +1,5 @@
 const productsModel = require('../models/productsModel');
-const { verifyName } = require('../middlewares/validationsProducts');
+const { verifyName, validateProductId } = require('../middlewares/validationsProducts');
 
 const getAll = async () => {
   const products = await productsModel.getAll();
@@ -18,9 +18,9 @@ const getById = async (id) => {
 };
 
 const createProduct = async (name) => {
-  console.log(name);
+  // console.log(name);
   const teste = verifyName(name);
-  console.log(teste);
+  // console.log(teste);
   if (teste) {
     const e = new Error(teste.message);
     e.code = teste.status;
@@ -33,17 +33,28 @@ const createProduct = async (name) => {
 };
 
 const updateProduct = async (id, name) => {
+  const validateName = verifyName(name);
+  console.log(validateName);
+  if (validateName) {
+    const e = new Error(validateName.message);
+    e.code = validateName.status;
+    throw e;
+  }
+    const verifyProductId = await validateProductId(id);
+    if (verifyProductId) {
+     const error = new Error(verifyProductId.message);
+     error.code = verifyProductId.status;
+      throw error;
+    }
+    const newSales = await productsModel.updateProduct(id, name);
+ 
+   return newSales;
+};
+
+const deleteProduct = async (id) => {
   const locateProduct = await productsModel.getById(id);
 
   if (!locateProduct) throw new Error('Product not found');
-
-  const updatedProduct = await productsModel.updateProduct(id, name); 
-
-   return updatedProduct;
- };
-
-const deleteProduct = async (id) => {
-  await getById(id);
 
   await productsModel.deleteProduct(id);
 

@@ -34,7 +34,7 @@ const getAll = async () => {
     throw e;
     }
     const verifyProductId = await validateProductId(sales);
-    console.log(verifyProductId);
+    // console.log(verifyProductId);
     const find = verifyProductId.find((element) => element !== false);
    if (find) {
      const error = new Error(find.message);
@@ -44,10 +44,16 @@ const getAll = async () => {
     const newSales = await salesModel.createSale(sales);
  
    return newSales;
- };
+};
+ 
+const deleteSale = async (id) => {
+  await getById(id);
+  await salesModel.deleteSale(id);
+};
 
 module.exports = {
   getAll,
   getById,
   createSale,
+  deleteSale,
 };
