@@ -10,14 +10,14 @@ const getAll = async (_req, res) => {
   }
 };
 
-const getById = async (req, res) => {
-  const { id } = req.params;
-
-  const saleById = await salesService.getById(id);
-
-  if (saleById.length === 0) return res.status(404).json({ message: 'Sale not found' });
-
-  return res.status(200).json(saleById);
+const getSaleById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const saleById = await salesService.getSaleById(id);
+    return res.status(200).json(saleById);
+  } catch (error) {
+     return res.status(404).json({ message: error.message });
+  }
 };
 
 const createSale = async (req, res) => {
@@ -36,13 +36,13 @@ const deleteSale = async (req, res) => {
     await salesService.deleteSale(id);
     res.status(204).end();
   } catch (error) {
-    return res.status(404).json({ message: 'Sale not found' });
+    return res.status(error.code).json({ message: error.message });
   }
 };
 
 module.exports = {
   getAll,
-  getById,
+  getSaleById,
   createSale,
   deleteSale,
 };

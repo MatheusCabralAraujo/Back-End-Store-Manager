@@ -1,5 +1,6 @@
 const salesModel = require('../models/salesModel');
-const { validateSale, validateProductId } = require('../middlewares/validationsSales');
+const { validateSale, validateProductId,
+validateSaleId } = require('../middlewares/validationsSales');
 
 const getAll = async () => {
     const sales = await salesModel.getAll();
@@ -18,11 +19,14 @@ const getAll = async () => {
     return salesDisplay;
   };
 
-  const getById = async (id) => {
-    const saleById = await salesModel.getById(id);
-  
-    return saleById;
-  };
+  const getSaleById = async (id) => {
+    const saleById = await salesModel.getSaleById(id);
+   if (!saleById) {
+    throw new Error('Sale not found');
+  }
+
+  return saleById;
+};
 
   const createSale = async (sales) => {
     const verifySale = validateSale(sales); 
@@ -47,13 +51,19 @@ const getAll = async () => {
 };
  
 const deleteSale = async (id) => {
-  await getById(id);
+  const deleteTest = await validateSaleId(id);
+  console.log(deleteTest);
+  if (deleteTest) {
+    const e = new Error(deleteTest.message);
+    e.code = deleteTest.status;
+    throw e;
+  }
   await salesModel.deleteSale(id);
 };
 
 module.exports = {
   getAll,
-  getById,
+  getSaleById,
   createSale,
   deleteSale,
 };

@@ -26,7 +26,7 @@ app.delete('/products/:id', Products.deleteProduct);
 
 app.get('/sales', Sales.getAll);
 
-app.get('/sales/:id', Sales.getById);
+app.get('/sales/:id', Sales.getSaleById);
 
 app.post('/sales', Sales.createSale);
 

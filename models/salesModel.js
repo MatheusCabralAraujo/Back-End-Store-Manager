@@ -10,7 +10,7 @@ const [sales] = await connection.execute(
 return sales;
 };
 
-const getById = async (id) => {
+const getSaleById = async (id) => {
   const query = `SELECT sa.date, sp.product_id AS productId, sp.quantity
   FROM sales AS sa
   INNER JOIN sales_products AS sp
@@ -18,7 +18,7 @@ const getById = async (id) => {
   WHERE sp.sale_id = ?`;
 
   const [sale] = await connection.execute(query, [id]);
-
+  if (sale.length === 0) return null;
   return sale;
 };
 
@@ -53,7 +53,7 @@ const deleteSale = async (id) => {
 
 module.exports = {
   getAll,
-  getById,
+  getSaleById,
   createSale,
   deleteSale,
 };

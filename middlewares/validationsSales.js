@@ -1,4 +1,5 @@
 const { getById } = require('../models/productsModel');
+const { getSaleById } = require('../models/salesModel');
 
 const validateSale = (sales) => {
   const Validation = sales.map((e) => {
@@ -24,7 +25,16 @@ const validateProductId = async (sales) => {
   return verification;
 };
 
+const validateSaleId = async (id) => {
+  const result = await getSaleById(id);
+  console.log(result);
+    if (!result) {
+      return { status: 404, message: 'Sale not found' };
+    }
+  };
+
 module.exports = {
   validateSale,
   validateProductId,
+  validateSaleId,
 };
