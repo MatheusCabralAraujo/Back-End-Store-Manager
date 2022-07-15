@@ -43,14 +43,20 @@ describe('Buscando apenas 1 produto', () => {
       productsModel.getById.restore();
     })
 
-    it('O retorno deve estar dentro de um objeto', async () => {
+    it('O retorno deve estar dentro de um array', async () => {
+      const res = await productsService.getAll();
+      expect(res).to.be.an('array');
+    })
+
+
+    it('Deve haver um objeto dentro do array', async () => {
       const res = await productsService.getById(1);
-      expect(res).to.be.an('object');
+      expect(res[0]).to.be.an('object');
     })
 
     it('O retorno do objeto deve vir corretamente', async () => {
       const res = await productsService.getById(1);
-      expect(res).to.be.includes.keys('id', 'name');
+      expect(res[0]).to.be.includes.keys('id', 'name');
     })
   });
 });
