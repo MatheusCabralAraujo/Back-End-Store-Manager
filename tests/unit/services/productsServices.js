@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const productsService = require("../../../services/productsService");
-const productsModel = require("../../../models/products");
+const productsModel = require("../../../models/productsModel");
 
 describe('Buscando todos os produtos', () => {
   describe('Quando existem produtos', () => {

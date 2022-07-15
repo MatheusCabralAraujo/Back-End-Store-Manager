@@ -1,6 +1,6 @@
 const salesModel = require('../models/salesModel');
 const { validateSale, validateProductId,
-validateSaleId } = require('../middlewares/validationsSales');
+validateSaleId, error } = require('../middlewares/validationsSales');
 
 const getAll = async () => {
     const sales = await salesModel.getAll();
@@ -41,9 +41,9 @@ const getAll = async () => {
     // console.log(verifyProductId);
     const find = verifyProductId.find((element) => element !== false);
    if (find) {
-     const error = new Error(find.message);
-     error.code = find.status;
-      throw error;
+     const err = new Error(find.message);
+     err.code = find.status;
+      throw err;
     }
     const newSales = await salesModel.createSale(sales);
  
@@ -61,9 +61,29 @@ const deleteSale = async (id) => {
   await salesModel.deleteSale(id);
 };
 
+const updateSale = async (data) => {
+    const verifyReqFormat = validateSale(data.sales); 
+    const teste = verifyReqFormat.some((e) => e.message);
+    if (teste) {
+      const find = verifyReqFormat.find((e) => e !== false);
+      const e = new Error(find.message);
+      e.code = find.status;
+    throw e;
+    }
+  const verifySaleId = await validateSaleId(data.id);
+  if (verifySaleId) throw error(verifySaleId.status, verifySaleId.message);
+  
+  const verifyProductId = await validateProductId(data.sales);
+  const find = verifyProductId.find((element) => element !== false);
+  if (find) throw error(find.status, find.message);
+  const updatedSales = await salesModel.updateSale(data);
+   return updatedSales;
+};
+
 module.exports = {
   getAll,
   getSaleById,
   createSale,
   deleteSale,
+  updateSale,
 };

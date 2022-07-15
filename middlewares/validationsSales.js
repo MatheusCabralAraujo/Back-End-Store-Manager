@@ -16,7 +16,6 @@ const validateSale = (sales) => {
 const validateProductId = async (sales) => {
   const verification = await Promise.all(sales.map(async (element) => {
     const result = await getById(element.productId);
-   // console.log(result);
     if (!result) {
       return { status: 404, message: 'Product not found' };
     }
@@ -27,14 +26,20 @@ const validateProductId = async (sales) => {
 
 const validateSaleId = async (id) => {
   const result = await getSaleById(id);
-  console.log(result);
-    if (!result) {
+    if (result === null) {
       return { status: 404, message: 'Sale not found' };
     }
-  };
+};
+
+const error = (status, message) => {
+  const err = new Error(message);
+  err.code = status;
+  return err;
+};
 
 module.exports = {
   validateSale,
   validateProductId,
   validateSaleId,
+  error,
 };

@@ -32,4 +32,6 @@ app.post('/sales', Sales.createSale);
 
 app.delete('/sales/:id', Sales.deleteSale);
 
+app.put('/sales/:id', Sales.updateSale);
+
 module.exports = app;

@@ -51,9 +51,32 @@ const deleteSale = async (id) => {
   await connection.execute(querySaleProduct, [id]);
 };
 
+const updateSale = async (data) => {
+   //  const query1 = 'SELECT * FROM sales_products WHERE sale_id = ? AND product_id = ?';
+  // const [verify] = await connection.execute(query1, [data.id, data.sales.productId]);
+  // if (verify.length === 0) {
+    // return false;
+ //  }
+  const teste = await Promise.all(data.sales.map((element) => {
+    console.log(element);
+    return connection.execute(
+      `
+      UPDATE sales_products 
+      SET quantity = ? 
+      WHERE sale_id = ? AND product_id = ?
+      `,
+      [element.quantity, data.id, element.productId],
+    );
+  }));
+  
+ // const [[{ affectedRows }]] = teste;
+  return teste;
+};
+
 module.exports = {
   getAll,
   getSaleById,
   createSale,
   deleteSale,
+  updateSale,
 };
