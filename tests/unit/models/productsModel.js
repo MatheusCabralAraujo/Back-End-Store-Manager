@@ -42,12 +42,7 @@ describe('Buscando apenas 1 produto', () => {
       connection.execute.restore();
     })
 
-    it('O retorno deve estar dentro de um array', async () => {
-      const res = await productsModel.findById(1);
-      expect(res).to.be.an('array');
-    })
-
-    it('O conteúdo do array deve ser um objeto', async () => {
+    it('O retorno deve ser um objeto', async () => {
       const [res] = await productsModel.getAll();
       expect(res).to.be.an('object');
     })
@@ -59,7 +54,6 @@ describe('Criando 1 produto novo', () => {
     const product = [{
       id: 4,
       name: 'Capacete do Homem de Ferro',
-      quantity: 40,
     }]
 
     before(() => {
@@ -72,14 +66,14 @@ describe('Criando 1 produto novo', () => {
 
     it('O retorno deve ser um objeto', async () => {
       const res = await productsModel
-        .createProduct({ name: 'Capacete do Homem de Ferro', quantity: 40 });
+        .createProduct({ name: 'Capacete do Homem de Ferro'});
       expect(res).to.be.an('object');
     })
 
     it('O conteúdo do objeto deve vir corretamente', async () => {
       const res = await productsModel
-        .createProduct({ name: 'Capacete do Homem de Ferro', quantity: 40 });
-      expect(res).to.be.includes.keys('id', 'name', 'quantity');
+        .createProduct({ name: 'Capacete do Homem de Ferro' });
+      expect(res).to.be.includes.keys('id', 'name');
     })
   });
 }); 

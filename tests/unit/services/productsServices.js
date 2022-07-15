@@ -36,28 +36,28 @@ describe('Buscando apenas 1 produto', () => {
     const product = { id: 1, name: 'Martelo de Thor', quantity: 10 };
 
     before(() => {
-      sinon.stub(productsModel, 'findById').resolves([product]);
+      sinon.stub(productsModel, 'getById').resolves([product]);
     })
 
     after(() => {
-      productsModel.findById.restore();
+      productsModel.getById.restore();
     })
 
     it('O retorno deve estar dentro de um objeto', async () => {
-      const res = await productsService.findById(1);
+      const res = await productsService.getById(1);
       expect(res).to.be.an('object');
     })
 
     it('O retorno do objeto deve vir corretamente', async () => {
-      const res = await productsService.findById(1);
-      expect(res).to.be.includes.keys('id', 'name', 'quantity');
+      const res = await productsService.getById(1);
+      expect(res).to.be.includes.keys('id', 'name');
     })
   });
 });
 
 describe('Criando 1 produto novo', () => {
   describe('Quando o produto é criado', () => {
-    const product = { id: 4, name: 'Capacete do Homem de Ferro', quantity: 40 };
+    const product = { id: 4, name: 'Capacete do Homem de Ferro'};
 
     before(() => {
       sinon.stub(productsModel, 'createProduct').resolves(product);
@@ -68,13 +68,13 @@ describe('Criando 1 produto novo', () => {
     })
 
     it('O retorno deve ser um objeto', async () => {
-      const res = await productsService.createProduct('Capacete do Homem de Ferro', 40);
+      const res = await productsService.createProduct('Capacete do Homem de Ferro');
       expect(res).to.be.an('object');
     })
 
     it('O retorno do objeto deve vir corretamente', async () => {
-      const res = await productsService.createProduct('Capacete do Homem de Ferro', 40);
-      expect(res).to.be.includes.keys('id', 'name', 'quantity');
+      const res = await productsService.createProduct('Capacete do Homem de Ferro');
+      expect(res).to.be.includes.keys('id', 'name');
     })
   });
 }); 

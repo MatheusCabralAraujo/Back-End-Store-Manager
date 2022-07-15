@@ -51,25 +51,25 @@ describe('Buscando apenas 1 produto', () => {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
 
-      sinon.stub(productsService, 'findById').resolves(product);
+      sinon.stub(productsService, 'getById').resolves(product);
     })
 
     after(() => {
-      productsService.findById.restore();
+      productsService.getById.restore();
     })
 
     it('O status code é 200', async () => {
-      await productsController.findById(req, res);
+      await productsController.getById(req, res);
       expect(res.status.calledWith(200)).to.be.equal(true);
     })
 
     it('O json retornado deve estar dentro de um objeto', async () => {
-        await productsController.findById(req, res);
+        await productsController.getById(req, res);
       expect(res.json.calledWith(sinon.match.object)).to.be.equal(true);
     })
 
     it('O json retorna os produtos corretamente', async () => {
-        await productsController.findById(req, res);
+        await productsController.getById(req, res);
       expect(res.json.calledWith(product)).to.be.equal(true);
     })
   });
@@ -79,7 +79,7 @@ describe('Criando 1 produto novo', () => {
   describe('Quando o produto é criado', () => {
     const req = {};
     const res = {};
-    const product = { id: 1, name: 'Martelo de Thor', quantity: 10 };
+    const product = { id: 1, name: 'Martelo do Batman' };
 
     before(() => {
       res.status = sinon.stub().returns(res);
